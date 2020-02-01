@@ -1,0 +1,22 @@
+.header {
+    color: red;
+    text-align: center;
+}
+
+#homeHeading {
+    border-style: hidden hidden solid hidden;
+    border-color: blue;
+}
+
+p {
+    color: purple;
+    font-size: large;
+}
+
+.homeImage {
+    border-style: solid;
+}
+
+.errorText {
+    color: red;
+}
