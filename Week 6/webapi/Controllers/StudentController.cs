@@ -5,14 +5,20 @@ using Database;
 
 namespace webapi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
         [HttpGet]
-        public ActionResult<List<Student>> Get()
+        public List<Student> Get()
         {
-            return Ok(getStudents());
+            List<Student> studentList = new List<Student>();
+
+            foreach (Student aStudent in Database.InMemory.Students)
+            {
+                studentList.Add(aStudent);
+            }
+            return studentList;
         }
 
         [HttpPost]

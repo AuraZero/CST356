@@ -7,13 +7,26 @@ namespace Database
         public static List<Student> Students = new List<Student> {
             new Student {
                 Id = 1,
-                StudentId = "100",
-                EmailAddress = "tom.smith@school.com"
+                StudentId = "Peter Parker",
+                EmailAddress = "spiderman@avengers.gov"
             },
             new Student {
                 Id = 2,
-                StudentId = "200",
-                EmailAddress = "mary.jones@school.com"
+                StudentId = "Scott Lang",
+                EmailAddress = "antman@avengers.gov"
+            }
+        };
+
+        public static List<Instructor> Instructors = new List<Instructor> {
+            new Instructor {
+                FirstName = "Tony",
+                LastName = "Stark",
+                Age = 48
+            },
+            new Instructor {
+                FirstName = "Steve",
+                LastName = "Rogers",
+                Age = 93
             }
         };
     }
