@@ -1,0 +1,54 @@
+<template>
+  <div id="app">
+    <NavBar/>
+    <router-view/>
+  </div>
+</template>
+
+<script>
+import NavBar from'./components/NavBar.vue'
+
+export default {
+  name: 'App',
+  components: {
+    NavBar
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+.header {
+    color: red;
+    text-align: center;
+}
+
+#homeHeading {
+    border-style: hidden hidden solid hidden;
+    border-color: blue;
+}
+
+p {
+    color: purple;
+    font-size: large;
+}
+
+.homeImage {
+    border-style: solid;
+}
+
+.singleLink {
+    border-style: solid;
+}
+
+.errorText {
+    color: red;
+}
+</style>
