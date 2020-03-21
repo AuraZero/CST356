@@ -33,14 +33,5 @@ namespace webapi.Controllers
         // {
         // }
 
-        private List<Student> getStudents()
-        {
-            return InMemory.Students;
-        }  
-
-        private int getNextId()
-        {
-            return InMemory.Students.Max(p => p.Id) + 1;
-        }
     }
 }

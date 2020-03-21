@@ -9,66 +9,73 @@ namespace webapi.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        [HttpGet]
-        public List<Student> Get()
-        {
-            List<Student> studentList = new List<Student>();
+        private readonly SchoolContext _dbContext;
 
-            foreach (Student aStudent in Database.InMemory.Students)
-            {
-                studentList.Add(aStudent);
+        public StudentController(SchoolContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        [HttpGet]
+        public ActionResult<List<Student>> GetAllProducts()
+        {
+            var result = _dbContext.Student.ToList();
+            return Ok(result);
+        }
+
+        [HttpGet("{productId}")]
+        public ActionResult<Student> GetProduct(int productId)
+        {
+            var product = _dbContext.Student
+                .SingleOrDefault(p => p.studentId == productId);
+
+            if (product != null) {
+                return product;
+            } else {
+                return NotFound();
             }
-            return studentList;
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] Student student)
+        public ActionResult<Student> AddProduct(Student product)
         {
-            student.Id = getNextId();
+            _dbContext.Student.Add(product);
+            _dbContext.SaveChanges();
 
-            InMemory.Students.Add(student);
+            // return CreatedAtAction(nameof(GetProduct), new { id = product.studentId }, product);
 
-            return CreatedAtAction(nameof(GetById), new { id = student.Id }, student);
+            return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status201Created);
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<string> GetById(int id)
+        [HttpDelete("{studentId}")]
+        public ActionResult DeleteProduct(int productId)
         {
-            if (id == 0)
-            {
-                return BadRequest();
-            }
-            
-            var student = InMemory.Students.FirstOrDefault(s => s.Id == id);
+            var product = new Student { studentId = productId };
 
-            if (student == null)
-            {
-                return NotFound();
-            }
+            _dbContext.Student.Attach(product);
+            _dbContext.Student.Remove(product);
+            _dbContext.SaveChanges();
 
-            return Ok(student);
+            return Ok();
         }
 
-        // // PUT api/values/5
-        // [HttpPut("{id}")]
-        // public void Put(int id, [FromBody] string value)
-        // {
-        // }
-
-        // // DELETE api/values/5
-        // [HttpDelete("{id}")]
-        // public void Delete(int id)
-        // {
-        // }
-
-        private List<Student> getStudents()
+        [HttpPut("{studentId}")]
+        public ActionResult UpdateProduct(int productId, Student productUpdate)
         {
-            return InMemory.Students;
-        }  
+            var product = _dbContext.Student
+                .SingleOrDefault(p => p.studentId == productId);
 
-        private int getNextId()
-        {
-            return InMemory.Students.Max(p => p.Id) + 1;
+            if (product != null)
+            {
+                product.studentId = productUpdate.studentId;
+                product.emailAddress = productUpdate.emailAddress;
+
+                _dbContext.Update(product);
+
+                _dbContext.SaveChanges();
+            }
+
+            return NoContent();
         }
     }
 }
